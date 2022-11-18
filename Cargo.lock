@@ -12,6 +12,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "enable-ansi-support"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "28d29d3ca9ba14c336417f8d7bc7f373e8c16d10c30cc0794b09d3cecab631ab"
+dependencies = [
+ "winapi 0.3.9",
+]
+
+[[package]]
 name = "memchr"
 version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -38,6 +47,7 @@ checksum = "456c603be3e8d448b072f410900c09faf164fbce2d480456f50eea6e25f9c848"
 name = "timer"
 version = "0.1.0"
 dependencies = [
+ "enable-ansi-support",
  "regex",
  "user32-sys",
  "winapi 0.3.9",

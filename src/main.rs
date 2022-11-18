@@ -17,6 +17,11 @@ fn get_line() -> String {
     input
 }
 fn main() {
+    // crate made by a beautiful lad
+    let use_ansi = match enable_ansi_support::enable_ansi_support() {
+        Ok(_) => true,
+        Err(_) => false,
+    };
     'main_loop: loop {
         println!("How long should this timer go for? ");
         // get a line from input
@@ -114,6 +119,13 @@ fn main() {
             }
             if num_seconds < 60 {
                 println!("Time left: {} seconds", num_seconds % 60);
+            }
+
+            if use_ansi {
+                // this should return term cursor to start of line
+                print!("\x1B[1A");
+                // clear the line
+                print!("\x1B[2K");
             }
             std::thread::sleep(one_second);
             num_seconds -= 1;
