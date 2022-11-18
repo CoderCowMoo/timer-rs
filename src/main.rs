@@ -22,7 +22,7 @@ fn main() {
         // get a line from input
         let input: String = get_line();
         // init number of seconds to sleep for
-        let mut num_seconds = 0;
+        let mut num_seconds: u64 = 0;
 
         // create a regex to match the input
         let token_re =
@@ -35,6 +35,14 @@ fn main() {
         let hours_re = Regex::new("[0-9]+[ ]*[h]+(ours|our)*").unwrap();
         let mins_re = Regex::new("[0-9]+[ ]*[m]+(inutes|inute|ins)*").unwrap();
         let secs_re = Regex::new("[0-9]+[ ]*[s]+(econds|econd|ecs)*").unwrap(); // completely made up by Copilot. Insane
+
+        // one last regex to check if user wants to exit/quit/q
+        let exit_re = Regex::new("exit|quit|q").unwrap();
+        // first thing to check for of course
+        if exit_re.is_match(&input) {
+            println!("Exiting...");
+            break 'main_loop;
+        }
 
         // check for the case that none match
         if token_re.is_match(&input) == false {
@@ -54,7 +62,7 @@ fn main() {
                 .chars()
                 .filter(|c| c.is_numeric())
                 .collect::<String>()
-                .parse::<u32>()
+                .parse::<u64>()
             {
                 Ok(n) => n,
                 Err(error) => panic!("Error parsing number from token: {}", error),
@@ -83,5 +91,6 @@ fn main() {
             "Sleeping for {} hours, {} minutes and {} seconds",
             hours, minutes, seconds
         );
+        std::thread::sleep(std::time::Duration::from_secs(num_seconds));
     }
 }
