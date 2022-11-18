@@ -118,5 +118,28 @@ fn main() {
             std::thread::sleep(one_second);
             num_seconds -= 1;
         }
+
+        // now we're done.
+        // for the Windows lads, we'll use the MessageBox and make a beep sound
+        if cfg!(windows) {
+            extern crate winapi;
+            use std::ffi::CString;
+            use user32::{MessageBeep, MessageBoxA};
+            use winapi::um::winuser::{MB_ICONINFORMATION, MB_OK};
+
+            let lp_text = CString::new("Timer finished!").unwrap();
+            let lp_caption = CString::new("Timer").unwrap();
+
+            unsafe {
+                MessageBeep(0.try_into().unwrap());
+
+                MessageBoxA(
+                    std::ptr::null_mut(),
+                    lp_text.as_ptr(),
+                    lp_caption.as_ptr(),
+                    MB_ICONINFORMATION | MB_OK,
+                );
+            }
+        }
     }
 }
