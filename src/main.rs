@@ -91,6 +91,32 @@ fn main() {
             "Sleeping for {} hours, {} minutes and {} seconds",
             hours, minutes, seconds
         );
-        std::thread::sleep(std::time::Duration::from_secs(num_seconds));
+
+        let one_second = std::time::Duration::from_secs(1);
+
+        // give the user the time left each second
+        while num_seconds > 0 {
+            // format the time left as hh:mm:ss
+            if num_seconds > 3600 {
+                println!(
+                    "Time left: {} hours, {} minutes & {} seconds",
+                    num_seconds / 3600,
+                    (num_seconds % 3600) / 60,
+                    num_seconds % 60
+                );
+            }
+            if num_seconds < 3600 && num_seconds > 60 {
+                println!(
+                    "Time left: {} minutes & {} seconds",
+                    (num_seconds % 3600) / 60,
+                    num_seconds % 60
+                );
+            }
+            if num_seconds < 60 {
+                println!("Time left: {} seconds", num_seconds % 60);
+            }
+            std::thread::sleep(one_second);
+            num_seconds -= 1;
+        }
     }
 }
